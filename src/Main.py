@@ -5,18 +5,16 @@ import json
 
 def main():
     
-    dataset_folder = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//archive (1)//data_base//Training//pituitary_tumor"
+    dataset_folder = "./Data"
 
-    #collector = DataCollector()  
-    
-    #collector.get_frequency_for_all_images(dataset_folder)
-    json_path = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//no_tumor_frequencies.json"
+
+    json_path = "./Frequencies/no_tumor_frequencies.json"
     pixel_data = getJSONdata(json_path)
 
-    binned_pixel_data = combine_frequencies(pixel_data, 3)
+    binned_pixel_data = combine_frequencies(pixel_data, 5)
 
-    output_path = "C://Users//Trust_pc_dz//Documents//IMED//DATASET"
-    writeFrequencyIntoJSON(output_path, binned_pixel_data, "binned_no_tumor_frequencies")
+    output_path = "./Frequencies"
+    writeFrequencyIntoJSON(output_path, binned_pixel_data, "binned5_no_tumor_frequencies")
 
 
 if __name__ == "__main__":
