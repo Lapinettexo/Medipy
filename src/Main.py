@@ -1,5 +1,6 @@
 from imageStats import DataCollector
-from utility import getJSONdata, writeFrequencyIntoJSON, combine_frequencies, traiter_images_dossier
+from imageEnhance import ImageEnhancer
+from utility import getJSONdata, writeFrequencyIntoJSON, combine_frequencies
 import os
 import json
 
@@ -18,10 +19,14 @@ def main():
 
     #dossier_images =  r"C:\Users\Trust_pc_dz\Documents\IMED\DATASET\archive (1)\Brain Tumor Data Set\Brain Tumor clean - Copie"
     #dossier_images =  r"C:\Users\Trust_pc_dz\Documents\IMED\DATASET\test"
-    dossier_sortie = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//clean background"
+    #dossier_images =  r"C:\Users\Trust_pc_dz\Documents\IMED\DATASET\Clean Data\No tumor - Copie"
+    #dossier_sortie = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//clean background"
 
-    #traiter_images_dossier(dossier_images)
+    #enhancer = ImageEnhancer(dossier_images)
 
+    #enhancer.remove_low_quality_images()
+    #data_collector = DataCollector("C://Users//Trust_pc_dz//Documents//IMED//DATASET//Clean Data//No tumor clean")
+    #data_collector.get_frequency_for_all_images(split_mode="2v")
 
 
 if __name__ == "__main__":
