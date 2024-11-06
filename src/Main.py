@@ -18,15 +18,16 @@ def main():
     writeFrequencyIntoJSON(output_path, binned_pixel_data, "binned5_no_tumor_frequencies")"""
 
     #dossier_images =  r"C:\Users\Trust_pc_dz\Documents\IMED\DATASET\archive (1)\Brain Tumor Data Set\Brain Tumor clean - Copie"
-    #dossier_images =  r"C:\Users\Trust_pc_dz\Documents\IMED\DATASET\test"
+    dossier_images =  r"C:\Users\Trust_pc_dz\Documents\IMED\DATASET\test"
     #dossier_images =  r"C:\Users\Trust_pc_dz\Documents\IMED\DATASET\Clean Data\No tumor - Copie"
     #dossier_sortie = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//clean background"
 
-    #enhancer = ImageEnhancer(dossier_images)
+    enhancer = ImageEnhancer(dossier_images)
 
-    #enhancer.remove_low_quality_images()
+    enhancer.remove_low_quality_images()
     #data_collector = DataCollector("C://Users//Trust_pc_dz//Documents//IMED//DATASET//Clean Data//No tumor clean")
     #data_collector.get_frequency_for_all_images(split_mode="2v")
+
 
 
 if __name__ == "__main__":

@@ -6,8 +6,11 @@ from skimage.measure import shannon_entropy
 class ImageEnhancer:
     def __init__(self, input_folder):
         self.input_folder = input_folder
-        self.quality_threshold = 100  # Ajustez cette valeur selon les tests
-        self.entropy_threshold = 6.0    # Threshold for detecting low quality
+        self.quality_threshold = 100  
+        self.entropy_threshold = 4.0 
+        self.min_width = 215
+        self.min_height = 200   
+        
 
 
     def remove_background(self):
@@ -89,7 +92,7 @@ class ImageEnhancer:
                 image_path = os.path.join(self.input_folder, filename)
                 
                 # Check if the image meets quality standards
-                if self._is_low_quality(image_path):
+                if self.is_low_resolution(image_path):
                     os.remove(image_path)
                     print(f"Removed low-quality image: {image_path}")
                     print("--------------------")
@@ -113,3 +116,18 @@ class ImageEnhancer:
         
         # Return True if variance is below the threshold (indicating low quality)
         return entropy > self.entropy_threshold
+    
+    def is_low_resolution(self, image_path):
+        # Read the image using cv2
+        image = cv2.imread(image_path)
+        
+        # Check if the image was loaded correctly
+        if image is None:
+            print("Error: Could not load image.")
+            return False
+        
+        # Get the dimensions of the image
+        height, width = image.shape[:2]
+        
+        # Return True if either dimension is below the minimum threshold
+        return width < self.min_width or height < self.min_height
