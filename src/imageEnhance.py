@@ -1,15 +1,21 @@
 import os
 import cv2
 import numpy as np
+import shutil
 from skimage.measure import shannon_entropy
 
 class ImageEnhancer:
     def __init__(self, input_folder):
         self.input_folder = input_folder
+        self.output_folder = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Flagged from no tumor"
         self.quality_threshold = 100  
         self.entropy_threshold = 4.0 
-        self.min_width = 215
+        self.min_width = 216
         self.min_height = 200   
+
+        if not os.path.exists(self.output_folder):
+            os.makedirs(self.output_folder)
+            print(f"Output folder created at: {self.output_folder}")
         
 
 
@@ -91,14 +97,14 @@ class ImageEnhancer:
             if filename.endswith(".png") or filename.endswith(".jpg"):
                 image_path = os.path.join(self.input_folder, filename)
                 
+                #print(f"Processing image: {image_path}")
+
                 # Check if the image meets quality standards
                 if self.is_low_resolution(image_path):
-                    os.remove(image_path)
-                    print(f"Removed low-quality image: {image_path}")
-                    print("--------------------")
-                else:
-                    print(f"Image {filename} meets quality standards.")
-                    print("--------------------")
+                    # Move to output folder
+                    dest_path = os.path.join(self.output_folder, filename)
+                    shutil.move(image_path, dest_path)
+                    #print(f"Moved low-quality image to {dest_path}")
 
     def _is_low_quality(self, image_path):
         """Determine if an image is low quality based on its sharpness."""
@@ -130,4 +136,6 @@ class ImageEnhancer:
         height, width = image.shape[:2]
         
         # Return True if either dimension is below the minimum threshold
-        return width < self.min_width or height < self.min_height
+        if (width < self.min_width and height < 300) or (height < self.min_height and width < 300):
+            return True
+        return False
