@@ -62,3 +62,4 @@ def move_images_to_parent(parent_folder):
                 shutil.move(source_path, destination_path)
     print("Les images ont été déplacées avec succès.")
 
+

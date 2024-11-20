@@ -35,9 +35,11 @@ class DataCollector:
                 image.crop((0, 0, mid_x, height)),         # Left half
                 image.crop((mid_x, 0, width, height))      # Right half
             ]
+        elif mode == "1":
+            parts = [image]  # Return the whole image as a single part
         else:
             print(f"Unknown split mode '{mode}'")
-        
+            
         return parts
     
     def calculate_pixel_frequency(self, part):
@@ -76,5 +78,5 @@ class DataCollector:
         print("End processing")
 
         save_folder = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Frequencies"
-        writeFrequencyIntoJSON(save_folder, all_image_frequencies, "pituitary_clean_4")
+        writeFrequencyIntoJSON(save_folder, all_image_frequencies, "No_Tumor_1")
         print("Data written in JSON file.")
