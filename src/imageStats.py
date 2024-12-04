@@ -42,6 +42,25 @@ class DataCollector:
             
         return parts
     
+    def dynamicImageSplitter(self, image, num_rows=2, num_cols=2):
+        width, height = image.size
+        parts = []
+        
+        # Calculate the width and height of each part
+        part_width = width // num_cols
+        part_height = height // num_rows
+
+        # Generate the sub-images by iterating through the grid
+        for row in range(num_rows):
+            for col in range(num_cols):
+                left = col * part_width
+                upper = row * part_height
+                right = left + part_width
+                lower = upper + part_height
+                parts.append(image.crop((left, upper, right, lower)))
+
+        return parts
+    
     def calculate_pixel_frequency(self, part):
         img_array = np.array(part)
         pixels = img_array.flatten()
@@ -65,7 +84,8 @@ class DataCollector:
                 continue  
 
             image = Image.open(image_path).convert('L')
-            parts = self.imageSplitter(image, mode=split_mode)
+            #parts = self.imageSplitter(image, mode=split_mode)
+            parts = self.dynamicImageSplitter(image, 3, 1)
 
             image_frequencies = {}
 
@@ -78,5 +98,5 @@ class DataCollector:
         print("End processing")
 
         save_folder = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Frequencies"
-        writeFrequencyIntoJSON(save_folder, all_image_frequencies, "No_Tumor_1")
+        writeFrequencyIntoJSON(save_folder, all_image_frequencies, "test")
         print("Data written in JSON file.")

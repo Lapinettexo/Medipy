@@ -3,6 +3,8 @@ import json
 import re
 import numpy as np
 import shutil
+import cv2
+import matplotlib.pyplot as plt
 
 def check_image_exists(path):
     return os.path.exists(path)
@@ -63,3 +65,47 @@ def move_images_to_parent(parent_folder):
     print("Les images ont été déplacées avec succès.")
 
 
+def plot_histograms(image_paths):
+    """
+    Calculate and display histograms as bar charts for n images.
+
+    Parameters:
+        image_paths (list): A list of paths to image files.
+    """
+    if not image_paths:
+        print("No image paths provided.")
+        return
+
+    # Determine the number of images
+    n = len(image_paths)
+    
+    # Create a figure with n subplots
+    fig, axes = plt.subplots(1, n, figsize=(5 * n, 4))
+    
+    # Handle the case of a single image (axes won't be a list)
+    if n == 1:
+        axes = [axes]
+    
+    for idx, (image_path, ax) in enumerate(zip(image_paths, axes)):
+        # Read the image
+        image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+        
+        if image is None:
+            print(f"Unable to read image: {image_path}")
+            continue
+        
+        # Calculate histogram
+        hist = cv2.calcHist([image], [0], None, [256], [0, 256])
+        
+        # Normalize the histogram for better visibility (optional)
+        hist = hist.ravel()
+        
+        # Plot histogram as bars
+        ax.bar(range(256), hist, color='gray', width=1.0)
+        ax.set_title(f"Histogram {idx + 1}")
+        ax.set_xlabel("Pixel Intensity")
+        ax.set_ylabel("Frequency")
+        ax.grid(False)  # Turn off grid for a cleaner bar chart
+    
+    plt.tight_layout()
+    plt.show()

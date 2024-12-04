@@ -64,9 +64,9 @@ def load_data_from_json(folder_path, n_first=0, n_last=0):
         return features, labels
 
 
-folder_path = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Frequencies//4 Data"
+folder_path = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Frequencies//Data"
 #trainer = CustomTrainer()
-features, labels = load_data_from_json(folder_path, 0, 0)
+features, labels = load_data_from_json(folder_path, 1, 235)
 
 #trainer.calculate_means(features, labels)
 
