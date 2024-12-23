@@ -68,7 +68,7 @@ class DataCollector:
         return frequency.tolist()
     
     
-    def get_frequency_for_all_images(self, split_mode):
+    def get_frequency_for_all_images(self):
         if not self.images:
             print(f"No images found in '{self.folder_path}'")
             return
@@ -85,7 +85,7 @@ class DataCollector:
 
             image = Image.open(image_path).convert('L')
             #parts = self.imageSplitter(image, mode=split_mode)
-            parts = self.dynamicImageSplitter(image, 3, 1)
+            parts = self.dynamicImageSplitter(image, 1, 16)
 
             image_frequencies = {}
 
@@ -97,6 +97,6 @@ class DataCollector:
 
         print("End processing")
 
-        save_folder = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Frequencies"
-        writeFrequencyIntoJSON(save_folder, all_image_frequencies, "test")
+        save_folder = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Frequencies//16 Data"
+        writeFrequencyIntoJSON(save_folder, all_image_frequencies, "Brain_Tumor_16")
         print("Data written in JSON file.")

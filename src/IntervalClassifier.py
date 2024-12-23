@@ -6,8 +6,8 @@ from sklearn.metrics import classification_report
 import numpy as np
 
 class IntervalClassifier:
-    def __init__(self, use_median=False):
-        self.use_median = use_median  # Whether to use median for pixel assignment
+    def __init__(self):
+        #self.use_median = use_median  # Whether to use median for pixel assignment
         self.class_intervals = {}  # Store min, max, and median for each class
 
     def fit(self, X, y):
@@ -39,20 +39,26 @@ class IntervalClassifier:
         """
         predictions = []
         for features in X:
-            # Assign each pixel to a class based on the chosen strategy
+            # Assign each pixel to a class based on min-max and median
             pixel_class_votes = {label: 0 for label in self.class_intervals.keys()}
             
             for i, pixel_value in enumerate(features):
+                # Track ambiguous classes
+                ambiguous_classes = []
                 for label, intervals in self.class_intervals.items():
-                    if self.use_median:
-                        # Assign pixel based on closeness to the median
-                        median = intervals['median'][i]
-                        if abs(pixel_value - median) < abs(pixel_value - (intervals['min'][i] + intervals['max'][i]) / 2):
-                            pixel_class_votes[label] += 1
-                    else:
-                        # Assign pixel based on the min-max range
-                        if intervals['min'][i] <= pixel_value <= intervals['max'][i]:
-                            pixel_class_votes[label] += 1
+                    if intervals['min'][i] <= pixel_value <= intervals['max'][i]:
+                        ambiguous_classes.append(label)
+
+                if len(ambiguous_classes) == 1:
+                    # Unambiguous case: Increment vote for the matching class
+                    pixel_class_votes[ambiguous_classes[0]] += 1
+                elif len(ambiguous_classes) > 1:
+                    # Ambiguous case: Resolve using the closest median
+                    closest_class = min(
+                        ambiguous_classes,
+                        key=lambda label: abs(pixel_value - self.class_intervals[label]['median'][i])
+                    )
+                    pixel_class_votes[closest_class] += 1
 
             # Predict class based on majority vote
             predicted_class = max(pixel_class_votes, key=pixel_class_votes.get)
@@ -107,8 +113,8 @@ def load_data_from_json(folder_path, n_first=0, n_last=0, normalize=True):
 
 
 # Example usage
-folder_path = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Frequencies//Data"
-features, labels = load_data_from_json(folder_path, 1, 0)
+folder_path = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Frequencies//16 Data"
+features, labels = load_data_from_json(folder_path, 0, 0)
 
 # Split data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)

@@ -34,7 +34,7 @@ def load_data_from_json(folder_path):
 
     return features, labels
 
-folder_path = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Frequencies//Data"
+folder_path = "C://Users//Trust_pc_dz//Documents//IMED//DATASET//Frequencies//16 Data"
 X, y = load_data_from_json(folder_path)
 
 # Step 2: Encode labels
